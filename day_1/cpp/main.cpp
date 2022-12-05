@@ -1,5 +1,9 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
+#include <algorithm>
+
+std::vector<int> maxes;
 
 int main(int argc, char *argv[])
 {
@@ -14,7 +18,7 @@ int main(int argc, char *argv[])
     {
         if (line.empty())
         {
-            max_calories = max(latest_max_calories, max_calories);
+            maxes.emplace_back(latest_max_calories);
             latest_max_calories = 0;
             continue;
         }
@@ -22,7 +26,18 @@ int main(int argc, char *argv[])
         latest_max_calories += stol(line);
     }
 
-    max_calories = max(latest_max_calories, max_calories);
+    maxes.emplace_back(latest_max_calories);
 
-    cout << "Max calories: " << max_calories << endl;
+    sort(maxes.begin(), maxes.end(), greater<int>());
+
+    int sum = 0;
+
+    cout << "Max calories" << endl;
+    for (int i = 0; i < 3; i++)
+    {
+        sum += maxes[i];
+        cout << i + 1 << ": " << maxes[i] << endl;
+    }
+
+    cout << "Sum: " << sum << endl;
 }
