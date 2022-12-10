@@ -13,4 +13,5 @@ Solutions for the advent of code puzzle games.
 - ~~Day 7~~
 - ~~Day 8~~
 - ~~Day 9~~
+- ~~Day 10~~
 - ...

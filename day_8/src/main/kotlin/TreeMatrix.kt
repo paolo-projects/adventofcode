@@ -15,6 +15,8 @@ class TreeMatrix<T : Comparable<T>>(val rows: Int, val columns: Int) : Iterable<
         } else throw Exception("Coordinates out of range")
     }
 
+
+
     override fun iterator(): Iterator<MatrixCell> = TreeCellIterator()
 
     inner class MatrixCell(val row: Int, val column: Int) {
