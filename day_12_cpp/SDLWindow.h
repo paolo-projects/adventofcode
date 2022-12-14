@@ -3,23 +3,24 @@
 #include <stdexcept>
 #include <algorithm>
 #include <cmath>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "Matrix.h"
 #include "GraphNode.h"
 
-class SDLWindow {
+class SDLWindow
+{
 public:
 	SDLWindow() = delete;
-	SDLWindow(const SDLWindow&) = delete;
-	SDLWindow(Matrix<GraphNode>& matrix);
+	SDLWindow(const SDLWindow &) = delete;
+	SDLWindow(Matrix<GraphNode> &matrix);
 	~SDLWindow();
 
 	void redraw();
 
 private:
-	Matrix<GraphNode>& matrix;
+	Matrix<GraphNode> &matrix;
 	int windowWidth, windowHeight;
 	int minElevation, maxElevation;
-	SDL_Window* window = nullptr;
-	SDL_Surface* screenSurface = nullptr;
+	SDL_Window *window = nullptr;
+	SDL_Surface *screenSurface = nullptr;
 };

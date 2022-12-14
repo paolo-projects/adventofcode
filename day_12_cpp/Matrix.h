@@ -18,7 +18,7 @@ public:
         using difference_type = std::ptrdiff_t;
         using value_type = MatrixPoint;
 
-        Iterator(T *ptr, int width) : _ptr(ptr), width(width) {}
+        Iterator(T *ptr = nullptr, int width = 0) : _ptr(ptr), width(width) {}
 
         MatrixPoint operator*()
         {

@@ -4,6 +4,7 @@ project (DAY12)
 set(SRCS main.cpp EasyBMP.cpp "SDLWindow.cpp")
 add_executable(DAY12 ${SRCS})
 include_directories(".")
+target_compile_features(DAY12 PRIVATE cxx_std_17)
 
 if(WIN32)
 	include_directories(${PROJECT_SOURCE_DIR}/SDL2-2.26.1/include)
