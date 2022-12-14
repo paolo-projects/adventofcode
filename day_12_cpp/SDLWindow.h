@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 #include <SDL2/SDL.h>
 #include "Matrix.h"
 #include "GraphNode.h"

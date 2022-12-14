@@ -6,6 +6,7 @@
 #include <limits>
 #include <algorithm>
 #include <thread>
+#include <cstdio>
 
 #include "GraphNode.h"
 #include "Utils.h"
@@ -13,8 +14,8 @@
 #include "BitmapWriter.h"
 #include "SDLWindow.h"
 
-int runSimulation(Matrix<GraphNode>& space, SDLWindow& window, GraphNode* endNode);
-int runSimulation2(Matrix<GraphNode>& space, SDLWindow& window);
+int runSimulation(Matrix<GraphNode> &space, SDLWindow &window, GraphNode *endNode);
+int runSimulation2(Matrix<GraphNode> &space, SDLWindow &window);
 
 bool canMove(const GraphNode &start, const GraphNode &end)
 {
@@ -22,22 +23,23 @@ bool canMove(const GraphNode &start, const GraphNode &end)
     return verticalDistance <= 1;
 }
 
-bool canMove2(const GraphNode& start, const GraphNode& end)
+bool canMove2(const GraphNode &start, const GraphNode &end)
 {
     auto verticalDistance = end.z - start.z;
     return verticalDistance >= -1;
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     std::ifstream input("input.txt");
 
-    if (!input.good()) {
+    if (!input.good())
+    {
         throw std::runtime_error("input.txt not found");
     }
 
     std::vector<std::string> lines;
-    GraphNode* startNode = nullptr, * endNode = nullptr;
+    GraphNode *startNode = nullptr, *endNode = nullptr;
     int maxElevation = 0;
 
     std::cout << "Parsing input" << std::endl;
@@ -61,7 +63,7 @@ int main(int argc, char* argv[])
 
     for (int y = 0; y < lines.size(); y++)
     {
-        const auto& line = lines[y];
+        const auto &line = lines[y];
         for (int x = 0; x < line.size(); x++)
         {
             char c = line[x];
@@ -81,10 +83,12 @@ int main(int argc, char* argv[])
         }
     }
 
-    if (endNode == nullptr) {
+    if (endNode == nullptr)
+    {
         throw std::runtime_error("End node not found");
     }
-    if (startNode == nullptr) {
+    if (startNode == nullptr)
+    {
         throw std::runtime_error("Start node not found");
     }
 
@@ -114,31 +118,39 @@ int main(int argc, char* argv[])
         }
     }
 
-    for (auto point : space) {
+    std::cout << "Press any character to start... " << std::endl;
+    getchar();
+    std::cout << std::endl;
+
+    for (auto point : space)
+    {
         point.value.distance = std::numeric_limits<int>::max();
         point.value.visited = false;
     }
     startNode->distance = 0;
     int endDistance = runSimulation(space, window, endNode);
 
-    GraphNode* closestNode = nullptr;
+    GraphNode *closestNode = nullptr;
     int closestDistance = std::numeric_limits<int>::max();
-    for (auto point : space) {
-        if (endDistance - point.value.distance < closestDistance) {
+    for (auto point : space)
+    {
+        if (endDistance - point.value.distance < closestDistance)
+        {
             closestDistance = endDistance - point.value.distance;
             closestNode = &point.value;
         }
     }
 
-    if (closestNode == nullptr) {
+    if (closestNode == nullptr)
+    {
         throw std::runtime_error("Couldn't find closest node");
     }
 
-    for (auto point : space) {
+    for (auto point : space)
+    {
         point.value.distance = std::numeric_limits<int>::max();
         point.value.visited = false;
         point.value.connections.clear();
-
 
         if (point.y + 1 < height && canMove2(point.value, space.get(point.x, point.y + 1)))
         {
@@ -160,11 +172,13 @@ int main(int argc, char* argv[])
     endNode->distance = 0;
     runSimulation2(space, window);
 
-    char c;
-    std::cin >> c;
+    std::cout << "Press any character to close... " << std::endl;
+    getchar();
+    std::cout << std::endl;
 }
 
-int runSimulation(Matrix<GraphNode>& space, SDLWindow& window, GraphNode* endNode) {
+int runSimulation(Matrix<GraphNode> &space, SDLWindow &window, GraphNode *endNode)
+{
     std::list<GraphNode *> nodesBucket;
     std::transform(space.getData().begin(), space.getData().end(), std::back_inserter(nodesBucket), [](GraphNode &node)
                    { return &node; });
@@ -199,18 +213,19 @@ int runSimulation(Matrix<GraphNode>& space, SDLWindow& window, GraphNode* endNod
     }
 }
 
-int runSimulation2(Matrix<GraphNode>& space, SDLWindow& window) {
-    std::list<GraphNode*> nodesBucket;
-    std::transform(space.getData().begin(), space.getData().end(), std::back_inserter(nodesBucket), [](GraphNode& node)
-        { return &node; });
+int runSimulation2(Matrix<GraphNode> &space, SDLWindow &window)
+{
+    std::list<GraphNode *> nodesBucket;
+    std::transform(space.getData().begin(), space.getData().end(), std::back_inserter(nodesBucket), [](GraphNode &node)
+                   { return &node; });
 
     std::cout << "Optimizing distance" << std::endl;
-    GraphNode* currentNode = nullptr;
+    GraphNode *currentNode = nullptr;
 
     while (!nodesBucket.empty())
     {
-        currentNode = *std::min_element(nodesBucket.begin(), nodesBucket.end(), [](GraphNode* a, GraphNode* b)
-            { return a->distance < b->distance; });
+        currentNode = *std::min_element(nodesBucket.begin(), nodesBucket.end(), [](GraphNode *a, GraphNode *b)
+                                        { return a->distance < b->distance; });
 
         if (currentNode->z == 0)
         {

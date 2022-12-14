@@ -26,11 +26,11 @@ SDLWindow::~SDLWindow()
 
 void SDLWindow::redraw()
 {
-	auto minmax = std::minmax_element(matrix.begin(), matrix.end(), [](Matrix<GraphNode>::MatrixPoint p1, Matrix<GraphNode>::MatrixPoint p2)
-									  { return p1.value.z < p2.value.z; });
+	auto max_el = std::max_element(matrix.begin(), matrix.end(), [](Matrix<GraphNode>::MatrixPoint p1, Matrix<GraphNode>::MatrixPoint p2)
+								   { return p1.value.z < p2.value.z; });
 
-	minElevation = minmax.first->z;
-	maxElevation = minmax.second->z;
+	minElevation = 0;
+	maxElevation = max_el->z;
 
 	auto connectionColor = SDL_MapRGB(screenSurface->format, 0x20, 0x00, 0x00);
 	SDL_FillRect(screenSurface, nullptr, SDL_MapRGB(screenSurface->format, 0x00, 0x00, 0x00));
