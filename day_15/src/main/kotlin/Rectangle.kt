@@ -1,0 +1,1 @@
+data class Rectangle (val bottomLeft: Coordinate, val topRight: Coordinate)

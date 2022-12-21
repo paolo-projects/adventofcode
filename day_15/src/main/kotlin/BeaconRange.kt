@@ -1,0 +1,1 @@
+data class BeaconRange(val min: Coordinate, val max: Coordinate)
