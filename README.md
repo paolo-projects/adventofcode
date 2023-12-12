@@ -2,7 +2,13 @@
 
 Solutions for the advent of code puzzle games.
 
-## Status
+## 2023
+
+...
+
+## 2022
+
+### Status
 
 - ~~Day 1~~
 - ~~Day 2~~
