@@ -7,7 +7,8 @@ Solutions for the advent of code puzzle games.
 - 1: Go
 - 2: Rust
 - 3: PHP 😢
-- 4: ...
+- 4: Java 🧓
+- 5: ...
 
 ## 2022
 
