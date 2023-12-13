@@ -6,7 +6,8 @@ Solutions for the advent of code puzzle games.
 
 - 1: Go
 - 2: Rust
-- 3: ...
+- 3: PHP 😢
+- 4: ...
 
 ## 2022
 
