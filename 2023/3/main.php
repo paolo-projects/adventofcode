@@ -2,10 +2,12 @@
 
 function is_symbol($char)
 {
-    return preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $char);
+    return preg_match('/[\*\@\=\%\+\$\&\/\-\#]/', $char);
 }
 
-$input = file_get_contents("input_test.txt");
+$input = file_get_contents("input.txt");
+
+
 $lines = preg_split("/\r\n|\n|\r/", $input);
 $touched = array_map(function ($el) {
     return array_map(function ($_) {
@@ -13,7 +15,7 @@ $touched = array_map(function ($el) {
     }, str_split($el));
 }, $lines);
 
-function extract_number($lines, $i, $j, $touched): int | null
+function extract_number($lines, $i, $j, &$touched): int | null
 {
     if (is_numeric($lines[$i][$j]) && !$touched[$i][$j]) {
         $start = $j;
@@ -55,7 +57,5 @@ for ($i = 0; $i < sizeof($lines); $i++) {
         }
     }
 }
-
-print_r($numbers);
 
 echo "The result is: " . array_sum($numbers) . "\n";
