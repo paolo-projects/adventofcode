@@ -8,7 +8,8 @@ Solutions for the advent of code puzzle games.
 - 2: Rust
 - 3: PHP 😢
 - 4: Java 🧓
-- 5: ...
+- 5: JS (Bruteforced 2nd part 😅)
+- 6: ...
 
 ## 2022
 

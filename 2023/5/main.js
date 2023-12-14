@@ -70,7 +70,7 @@ for (const range of inputSeedRanges) {
       destMapping = m.destinationName;
     }
 
-    minLocation = Math.min(minLocation, v);
+    minLocation = Math.min(minLocation, mappingValue);
   }
 
   rI++;
