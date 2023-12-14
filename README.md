@@ -9,7 +9,8 @@ Solutions for the advent of code puzzle games.
 - 3: PHP 😢
 - 4: Java 🧓
 - 5: JS (Bruteforced 2nd part 😅)
-- 6: ...
+- 6: C (with math 😖)
+- 7: ...
 
 ## 2022
 
