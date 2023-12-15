@@ -10,7 +10,8 @@ Solutions for the advent of code puzzle games.
 - 4: Java 🧓
 - 5: JS (Bruteforced 2nd part 😅)
 - 6: C (with math 😖)
-- 7: ...
+- 7: C++ 💛
+- 8: ...
 
 ## 2022
 
