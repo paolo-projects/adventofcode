@@ -11,7 +11,8 @@ Solutions for the advent of code puzzle games.
 - 5: JS (Bruteforced 2nd part 😅)
 - 6: C (with math 😖)
 - 7: C++ 💛
-- 8: ...
+- 8: C# 😸
+- 9: ...
 
 ## 2022
 
