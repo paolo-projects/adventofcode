@@ -1,64 +1,84 @@
-﻿var file = File.ReadAllText("input.txt")!;
+﻿using System.Diagnostics;
+
+var file = File.ReadAllText("input.txt")!;
 
 var gameMap = GameMap.ParseMap(file);
 var directions = new List<Direction>();
 
 var line = new StringReader(file).ReadLine()!;
 
-foreach(char c in line) {
-    switch(c) {
+foreach (char c in line)
+{
+    switch (c)
+    {
         case 'L':
-        directions.Add(Direction.LEFT);
-        break;
+            directions.Add(Direction.LEFT);
+            break;
         case 'R':
-        directions.Add(Direction.RIGHT);
-        break;
+            directions.Add(Direction.RIGHT);
+            break;
         default:
-        throw new Exception($"Unsupported direction: {c}");
+            throw new Exception($"Unsupported direction: {c}");
     }
 }
 
 Node currentNode = gameMap.StartNode!;
-UInt128 steps = 0;
+uint steps = 0;
 
-while(currentNode.Label != "ZZZ") {
-    currentNode = directions[(int)(steps % (UInt128)directions.Count)] == Direction.LEFT ? currentNode.Left! : currentNode.Right!;
-    steps++;
+for (steps = 0; currentNode.Label != "ZZZ"; steps++)
+{
+    currentNode = directions[(int)(steps % directions.Count)] == Direction.LEFT ? currentNode.Left! : currentNode.Right!;
 }
 
 Console.WriteLine($"Total steps: {steps}");
 
-var currentNodes = gameMap.Nodes.Where((n) => n.Label.EndsWith('A')).ToList();
-var nodesLength = currentNodes.Count();
-var zNodes = 0;
-steps = 0;
+var initialNodes = gameMap.Nodes.Where((n) => n.Label.EndsWith('A')).ToList();
+var currentNodes = new List<Node>(initialNodes);
+var periodicities = initialNodes.Select((n) => null as UInt128?).ToList();
+var periodicitiesLists = initialNodes.Select((n) => new List<uint>()).ToList();
 
-var t = new Thread(() =>
+for (steps = 0; !periodicitiesLists.All((pl) => pl.Count > 5); steps++)
 {
-    while (true)
-    {
-        Console.WriteLine($"Currently at {steps}");
-        Thread.Sleep(1000);
-    }
-});
-t.Start();
+    var direction = directions[(int)(steps % directions.Count)];
+    currentNodes = currentNodes.Select((n) => direction == Direction.LEFT ? n.Left! : n.Right!).ToList();
 
-while(zNodes != nodesLength) {
-    var direction = directions[(int)(steps % (UInt128)directions.Count)];
-    zNodes = 0;
-    currentNodes.Clear();
-    foreach(var n in currentNodes)
+    if (steps > 0)
     {
-        var node = direction == Direction.LEFT ? n.Left! : n.Right!;
-        if (node.Label.EndsWith('Z'))
+        for (int i = 0; i < periodicities.Count(); i++)
         {
-            zNodes++;
+            if (currentNodes[i].Label.EndsWith('Z'))
+            {
+                if (periodicities[i] == null)
+                {
+                    periodicities[i] = steps + 1;
+                }
+                periodicitiesLists[i].Add(steps + 1);
+            }
         }
-        currentNodes.Add(node);
     }
-    steps++;
 }
 
-t.Abort();
+foreach (var p in periodicitiesLists)
+{
+    for (int i = 1; i < p.Count(); i++)
+    {
+        Debug.Assert(p[i] % p[0] == 0);
+    }
+}
 
-Console.WriteLine($"#2: Total steps: {steps}");
+/*var (lcm_m, lcm_n) = Utils.Lcm(periodicities.Select((p) => p ?? 0));
+Console.WriteLine($"LCM N = {lcm_n}");
+
+foreach (var p in periodicities)
+{
+    Console.WriteLine($"n = {((UInt128)lcm_n * lcm_m) / (UInt128)p!}");
+}
+
+Console.WriteLine($"done: {(UInt128)lcm_n * lcm_m}");*/
+UInt128 lcm = Utils.LcmEucl(periodicities.Select(n => n ?? 0));
+foreach (var p in periodicities)
+{
+    Console.WriteLine($"REST = {lcm % p}");
+}
+
+Console.WriteLine($"Done. N = {lcm}");
