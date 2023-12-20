@@ -12,7 +12,8 @@ Solutions for the advent of code puzzle games.
 - 6: C (with math 😖)
 - 7: C++ 💛
 - 8: C# 😸
-- 9: ...
+- 9: Python 🥳
+- 10: ...
 
 ## 2022
 
